@@ -1,0 +1,26 @@
+<h3><%= l(:label_my_projects) %></h3>
+
+<% projects = User.current.memberships.map(&:project).uniq %>
+
+<% if projects && projects.any? %>
+  <table class="list issues">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th><%=l(:field_project)%></th>
+        <th><%=l(:field_role)%></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for project in projects %>
+        <tr class="<%= cycle('odd', 'even') %>">
+          <td><%= link_to project.id, project_path(project) %></td>
+          <td><%= link_to_project project %></td>
+          <td style="text-align: left;"><%= User.current.roles_for_project(project).map(&:name).join(', ') %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p class="nodata"><%= l(:label_no_data) %></p>
+<% end %>

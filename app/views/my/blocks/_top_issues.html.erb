@@ -1,0 +1,4 @@
+<h3><%= l(:label_top_issues) %></h3>
+
+<% assigned_issues = issuesassignedtome_items %>
+<%= render :partial => 'issues/top_hot_issues', :locals => { :issues => assigned_issues } %>
