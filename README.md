@@ -1,7 +1,7 @@
 Redmine More Blocks Extension
 =======================
 
-[![Build Status](https://travis-ci.org/kiv-redmine/redmine_more_blocks_extension.svg)](https://travis-ci.org/kiv-redmine/redmine_more_blocks_extension)
+[![Build Status](https://travis-ci.org/kiv-redmine/redmine_more_blocks_extension.svg)](https://travis-ci.org/kiv-redmine/redmine_more_blocks_extension) [![Inline docs](http://inch-ci.org/github/kiv-redmine/redmine_more_blocks_extension.svg?branch=master)](http://inch-ci.org/github/kiv-redmine/redmine_more_blocks_extension)
 
 Add few more very usefull blocks on my page.
 
