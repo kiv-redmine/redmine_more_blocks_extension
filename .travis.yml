@@ -5,8 +5,12 @@ rvm:
 branches:
   only:
     - testing
+
 env:
+  - REDMINE_VERSION=2.5.3 VERBOSE=yes
   - REDMINE_VERSION=2.4.4 VERBOSE=yes
+  - REDMINE_VERSION=2.6.1 VERBOSE=yes
+
 script:
   - export PLUGIN=redmine_more_blocks_extension
   - export WORKSPACE=$(pwd)/workspace
