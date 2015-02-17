@@ -1,8 +1,21 @@
-Redmine Tiny Mce Editor
+Redmine More Blocks Extension
 =======================
 
 [![Build Status](https://travis-ci.org/kiv-redmine/redmine_more_blocks_extension.svg)](https://travis-ci.org/kiv-redmine/redmine_more_blocks_extension)
 
-Optional wysiwyg editor for Redmine 2.5, this plugin also add a function
-to configure editor per project, instead of configuration for whole
-redmine.
+Add few more very usefull blocks on my page.
+
+How to run build on travis?
+---------------------------
+First of all try to run tests in your environment:
+
+```ruby
+ruby plugins/redmine_more_blocks_extension/test/**/*.rb
+```
+
+If everyhting is ok, push your changes into master branch and run merge script, which merge master into testing and push to remote (github):
+
+```bash
+./push_for_test.sh
+```
+
