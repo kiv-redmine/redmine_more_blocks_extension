@@ -1,4 +1,4 @@
-Redmine Tiny Mce Editor
+Redmine More Blocks Extension
 =======================
 
 [![Build Status](https://travis-ci.org/kiv-redmine/redmine_more_blocks_extension.svg)](https://travis-ci.org/kiv-redmine/redmine_more_blocks_extension)
