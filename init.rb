@@ -5,6 +5,7 @@
 # @author Strnadj <jan.strnadek@gmail.com>
 
 require 'redmine'
+require 'redmine_more_blocks_extension'
 
 Redmine::Plugin.register :redmine_more_blocks_extension do
   name 'Redmine More Blocks plugin'

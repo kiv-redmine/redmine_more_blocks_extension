@@ -1,4 +1,15 @@
 <h3><%= l(:label_top_issues) %></h3>
 
-<% assigned_issues = issuesassignedtome_items %>
-<%= render :partial => 'issues/top_hot_issues', :locals => { :issues => assigned_issues } %>
+<% active_project = Project.visible.order('name').first %>
+<%= form_tag(my_top_issues_path, method: :post, remote: true, id: 'top_issue_form') do %>
+  <div class='settings box' style='text-align: right; padding: 0 10px 0 0;' id='widget_issue_settings'>
+    <p>
+      <label for="widget_project"><%= l(:label_project) %></label>
+      <%= select_tag 'project', options_for_select(Project.visible.order('name').map { |m| [ m.name, m.identifier ] }, active_project.identifier), :onchange => '$("#top_issue_form").submit()' %>
+    </p>
+  </div>
+
+  <div id="top_issue_tab">
+    <%= render :partial => 'issues/top_hot_issues', :locals => { :issues => active_project.issues.visible.limit(10) } %>
+  </div>
+<% end %>
