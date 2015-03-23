@@ -1,1 +1,1 @@
-$("#top_issue_tab").html('<%= escape_javascript(render :partial => 'issues/top_hot_issues', :locals => { :issues => @issues }) %>');
+$("#top_issue_tab").html('<%= escape_javascript(render :partial => 'issues/top_hot_issues', :locals => { :issues => @issues, :filter => @filter, :order_by => @order_by }) %>');

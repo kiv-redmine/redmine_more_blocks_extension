@@ -1,15 +1,62 @@
 <h3><%= l(:label_top_issues) %></h3>
 
-<% active_project = Project.visible.order('name').first %>
+<%# Load settings from sessions, it's ugly but it has to be here, in case we dont want to aliases my controller actions %>
+<% project   = Project.visible.find_by_identifier(session[:top_issue_project]) || Project.visible.order('name').first %>
+<% filter    = (session[:top_issue_filter] || :priority).to_sym %>
+<% order_by  = (session[:top_issue_order_by] || :desc).to_sym %>
+<% limit     = session[:top_issue_limit].to_i || 10 %>
+
+<%# The same problem is with styles %>
+<style type="text/css">
+table.top_hot_issues thead tr th a.asc {
+  background-image: url('/plugin_assets/redmine_more_blocks_extension/images/asc.png');
+}
+table.top_hot_issues thead tr th a.desc {
+  background-image: url('/plugin_assets/redmine_more_blocks_extension/images/desc.png');
+}
+
+table.top_hot_issues thead tr th a.sort_icon {
+  background-size: 12px 12px;
+  padding-left: 15px;
+  background-repeat: no-repeat;
+  background-position: 0 50%;
+}
+</style>
+
+<%# And with javascripts %>
+<script type="text/javascript">
+function changeOrder(type, link) {
+    var current = 'desc';
+    if (link.hasClass('desc')) {
+      current = 'asc';
+    }
+
+    /** Set values and submit form */
+    $('#filter_top_issues').val(type);
+    $('#order_by_top_issues').val(current);
+    $('#top_issue_form').submit();
+  }
+</script>
+
 <%= form_tag(my_top_issues_path, method: :post, remote: true, id: 'top_issue_form') do %>
-  <div class='settings box' style='text-align: right; padding: 0 10px 0 0;' id='widget_issue_settings'>
+  <div id="top_issue_tab">
+    <%= render :partial => 'issues/top_hot_issues', :locals => { :issues => retrieve_top_issues(project, filter, order_by, limit), :filter => filter, :order_by => order_by  } %>
+  </div>
+
+  <%= hidden_field_tag 'filter', filter, id: 'filter_top_issues' %>
+  <%= hidden_field_tag 'order_by', order_by, id: 'order_by_top_issues' %>
+  <div style='text-align: right;'>
+    <%= link_to_function l(:label_settings), '$("#widget_issue_settings").toggle();' %>
+  </div>
+
+  <div class='settings box' style='text-align: right; padding: 0 10px 0 0; display: none;' id='widget_issue_settings'>
     <p>
-      <label for="widget_project"><%= l(:label_project) %></label>
-      <%= select_tag 'project', options_for_select(Project.visible.order('name').map { |m| [ m.name, m.identifier ] }, active_project.identifier), :onchange => '$("#top_issue_form").submit()' %>
+      <label for="project"><%= l(:label_project) %></label>
+      <%= select_tag 'project', options_for_select(Project.visible.order('name').map { |m| [ m.name, m.identifier ] }, project.identifier), :onchange => '$("#top_issue_form").submit()' %>
+
+      <label for="limit"><%= l(:label_limit) %></label>
+      <%= select_tag 'limit', options_for_select((1..5).map { |m| [ m*10, m*10 ] }, limit), :onchange => '$("#top_issue_form").submit()' %>
     </p>
   </div>
 
-  <div id="top_issue_tab">
-    <%= render :partial => 'issues/top_hot_issues', :locals => { :issues => active_project.issues.visible.limit(10) } %>
-  </div>
 <% end %>

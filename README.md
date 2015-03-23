@@ -5,6 +5,20 @@ Redmine More Blocks Extension
 
 Add few more very usefull blocks on my page.
 
+How it looks like?
+------------------
+
+**Sortable and configurable top issues**
+![Screenshot](https://raw.githubusercontent.com/kiv-redmine/redmine_more_blocks_extension/master/screenshots/topissues.png)
+
+**Activity agregator**
+![Screenshot](https://raw.githubusercontent.com/kiv-redmine/redmine_more_blocks_extension/master/screenshots/activity.png)
+
+**Project and my roles**
+![Screenshot](https://raw.githubusercontent.com/kiv-redmine/redmine_more_blocks_extension/master/screenshots/projects.png)
+
+
+
 How to run build on travis?
 ---------------------------
 First of all try to run tests in your environment:

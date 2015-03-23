@@ -1,1 +1,52 @@
-<h3><%= l(:label_my_projects) %></h3>
+<% @days = Setting.activity_days_default.to_i + 2 %>
+<% @date_to = Date.today + 1 %>
+
+<h3><%= l(:label_activities) %> </h3>
+<p class="subtitle"><%= l(:label_date_from_to, :start => format_date(@date_to - @days), :end => format_date(@date_to-1)) %></p>
+
+<%# Find all activities for this day %>
+
+<% @activity = Redmine::Activity::Fetcher.new(User.current, :project => nil, :with_subprojects => true, :author => @author) %>
+<% @activity.scope = :all %>
+<% events = @activity.events(@date_to - 50, @date_to) %>
+<% @events_by_day = events.group_by {|event| User.current.time_to_date(event.event_datetime)} %>
+
+<style type="text/css">
+  #activity table td {
+    text-align: left;
+  }
+</style>
+
+<div id="activity" style="text-align: left;">
+<table class="list">
+<% @events_by_day.keys.sort.reverse.each do |day| %>
+  <tr>
+    <th><%= format_activity_day(day) %></th>
+  </tr>
+  <% sort_activity_events(@events_by_day[day]).each do |e, in_group| -%>
+    <tr>
+      <td>
+        <dl>
+          <dt class="<%= e.event_type %> <%= "grouped" if in_group %> <%= User.current.logged? && e.respond_to?(:event_author) && User.current == e.event_author ? 'me' : nil %>">
+          <%= avatar(e.event_author, :size => "24") if e.respond_to?(:event_author) %>
+          <span class="time"><%= format_time(e.event_datetime, false) %></span>
+          <%= content_tag('span', h(e.project), :class => 'project') if @project.nil? || @project != e.project %>
+          <%= link_to format_activity_title(e.event_title), e.event_url %>
+          </dt>
+          <dd class="<%= "grouped" if in_group %>"><span class="description"><%= format_activity_description(e.event_description) %></span>
+          <span class="author"><%= link_to_user(e.event_author) if e.respond_to?(:event_author) %></span></dd>
+        </dl>
+      </td>
+    </tr>
+  <% end -%>
+<% end -%>
+</table>
+</div>
+
+<%= content_tag('p', l(:label_no_data), :class => 'nodata') if @events_by_day.empty? %>
+
+<div>
+  <%= link_to("\xc2\xab " + l(:label_previous), { :controller => :activities, :action => :index, :from => @date_to - @days  - 1},
+                   :title => l(:label_date_from_to, :start => format_date(@date_to - 2*@days), :end => format_date(@date_to - @days - 1))) %>
+</div>
+
