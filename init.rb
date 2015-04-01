@@ -15,5 +15,5 @@ Redmine::Plugin.register :redmine_more_blocks_extension do
   url 'https://github.com/kiv-redmine/redmine_more_blocks_extension'
 
   # Prerequisites
-  requires_redmine version_or_higher: '2.4'
+  requires_redmine version_or_higher: '2.3'
 end
